@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Orders" ALTER COLUMN "mobile" SET DATA TYPE TEXT;
