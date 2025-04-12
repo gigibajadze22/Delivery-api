@@ -30,12 +30,11 @@ async function createUser(req,res) {
   async function editUser(req, res) {
     try {
       const { id } = req.params;
-      
-      const {name, email,password,roleId } = req.body;  
+      const {name, email,password,roleId,orderId } = req.body;  
       const hashedPassword = await bcrypt.hash(password, 10)
       const user = await prisma.users.update({
         where: { id: parseInt(id) },
-        data: {name, email,password:hashedPassword,roleId },
+        data: {name, email,password:hashedPassword,roleId,orderId },
       });
       res.json(user);
     } catch (error) {
@@ -57,7 +56,7 @@ async function createUser(req,res) {
 
   async function signin(req,res){
     const {email, password} = req.body;
-    const user = await prisma.users.findUnique({where: {email}})
+    const user = await prisma.users.findUnique({where: {email}, include: {Role: true}})
     
    
     if (!user) {
@@ -69,12 +68,11 @@ async function createUser(req,res) {
       return res.status(401).json({message: "Invalid credentals"})
     }
   
-    const token = jwt.sign({id:user.id }, process.env.JWT_SECRET, { 
+    const token = jwt.sign({id:user.id, role: user.Role.name }, process.env.JWT_SECRET, { 
       expiresIn: '1h' 
     });
     res.json({token, user})
   }
-
 
 
 

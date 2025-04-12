@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Orders" ADD COLUMN     "userId" INTEGER,
+ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE "Users" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP(3);

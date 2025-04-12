@@ -19,42 +19,42 @@ model Users {
   password   String
   email      String    @unique
   roleId     Int       @default(3)
-  created_at DateTime? @default(now()) @db.Timestamp(6)
+  created_at DateTime? @default(now())
 
-  Role Role @relation(fields: [roleId], references: id)
-  Orders  Orders[]
+  Role       Role     @relation(fields: [roleId], references: id)
+  Deliveries Orders[] @relation("CourierOrders")
 }
 
 model Orders {
   id            Int       @id @default(autoincrement())
-  city          String
-  name          String
-  mobile        String
-  address       String
-  comment       String?   
-  price         Int
-  deliveryPrice Int
-  sum           Int
-  statusId      Int      @default(1)
+  city          String?
+  name          String?
+  mobile        String?
+  address       String?
+  comment       String?
+  price         Int?
+  deliveryPrice Int?
+  sum           Int?
+  statusId      Int       @default(1)
   courierId     Int?
-  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  userId        Int?      // userId field added
+  created_at    DateTime? @default(now())
 
-  status     status    @relation(fields: [statusId], references: id)
-  Users   Users? @relation(fields: [courierId], references: [id])
+  status  status @relation(fields: [statusId], references: id)
+   // Relation without fields/ references, handled by the other model
+  Courier Users? @relation("CourierOrders", fields: [courierId], references: [id])
 }
 
 model status {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
-  Orders   Orders[]
+  Orders Orders[]
 }
-
-
 
 model Role {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   Users Users[]
 }
