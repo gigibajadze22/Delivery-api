@@ -37,6 +37,62 @@
  *     tags: [Orders]
  *     security:
  *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         description: Filter by order ID
+ *       - in: query
+ *         name: city
+ *         schema:
+ *           type: string
+ *         description: Filter by city
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Filter by customer name
+ *       - in: query
+ *         name: mobile
+ *         schema:
+ *           type: string
+ *         description: Filter by mobile number
+ *       - in: query
+ *         name: address
+ *         schema:
+ *           type: string
+ *         description: Filter by address
+ *       - in: query
+ *         name: comment
+ *         schema:
+ *           type: string
+ *         description: Filter by comment
+ *       - in: query
+ *         name: price
+ *         schema:
+ *           type: integer
+ *         description: Filter by price
+ *       - in: query
+ *         name: deliveryPrice
+ *         schema:
+ *           type: integer
+ *         description: Filter by delivery price
+ *       - in: query
+ *         name: sum
+ *         schema:
+ *           type: integer
+ *         description: Filter by total sum
+ *       - in: query
+ *         name: statusId
+ *         schema:
+ *           type: integer
+ *         description: Filter by status ID
+ *       - in: query
+ *         name: courierId
+ *         schema:
+ *           type: integer
+ *         description: Filter by courier ID
  *     responses:
  *       200:
  *         description: Orders retrieved successfully

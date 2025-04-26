@@ -12,8 +12,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs,{
     explorer: true,
 }))
 
-app.use('/sakuriero',userRouter)
-app.use('/sakuriero',orderRouter)
+app.use('/sakuriero',userRouter) //api/users
+app.use('/sakuriero',orderRouter)//api/orders
 
 app.listen(3000, () => {
     console.log(`server is running on port 3000`)

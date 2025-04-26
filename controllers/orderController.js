@@ -4,11 +4,13 @@ const prisma = new PrismaClient()
 
 async function getOrder(req, res) {
   try {
-    const userId = req.user.id;  // User's ID from authenticated user
-    const { city, name, mobile, address, comment, price, deliveryPrice, sum, statusId, courierId } = req.query;
+    const userId = req.user.id;  
+     
+    const {id,city, name, mobile, address, comment, price, deliveryPrice, sum, statusId, courierId } = req.query;
     const where = {};
-
-    // Add conditions based on query params
+   
+    
+    if (id) where.id = parseInt(id);
     if (city) where.city = city;
     if (name) where.name = name;
     if (mobile) where.mobile = parseInt(mobile);
@@ -21,20 +23,19 @@ async function getOrder(req, res) {
     if (courierId) where.courierId = parseInt(courierId);
 
     if (req.user.role === "client") {
-      // Fetch orders for client
       const orders = await prisma.orders.findMany({
-        where: { userId: userId },  // Get orders where userId matches
+        where: { userId: userId },  
       });
 
       if (!orders || orders.length === 0) {
         return res.status(404).json({ message: "No orders found for this user" });
       }
 
-      return res.status(200).json(orders);  // Return all orders for this client
+      return res.status(200).json(orders);  
     }
 
     if (req.user.role === "courier") {
-      // Fetch orders assigned to the courier
+      
       const courierOrders = await prisma.orders.findMany({
         where: { courierId: req.user.id },
       });
@@ -43,12 +44,12 @@ async function getOrder(req, res) {
         return res.status(404).json({ message: "No orders assigned to this courier" });
       }
 
-      return res.status(200).json(courierOrders);  // Return orders assigned to the courier
+      return res.status(200).json(courierOrders);  
     }
 
-    // Fetch all orders based on query conditions
+  
     const foundOrders = await prisma.orders.findMany({ where });
-    res.status(200).json(foundOrders);  // Return orders based on the provided filters
+    res.status(200).json(foundOrders);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
